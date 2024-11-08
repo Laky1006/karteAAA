@@ -17,7 +17,7 @@
     <script>
       const key = 'YOUR_MAPTILER_API_KEY_HERE';
       const map = L.map('map').setView([56.946285, 24.105078], 8); //starting position
-      L.tileLayer(`https://api.maptiler.com/maps/aquarelle/{z}/{x}/{y}.webp?key=WzQu1YxVHp0QFlSyQKIq`,{ //style URL
+      L.tileLayer(`https://api.maptiler.com/maps/aquarelle/{z}/{x}/{y}.png?key=B8exdOKVEvg4Bb0ouzou`,{ //style URL
         tileSize: 512,
         zoomOffset: -1,
         minZoom: 1,
@@ -197,8 +197,8 @@
     // var marker = L.marker(LKS92WGS84.convertXYToLatLon([680527.978100169100799, 332724.626692906022072],)).addTo(map);
     // var marker2 = L.marker(LKS92WGS84.convertXYToLatLon([433957.672499996901024, 271032.412799982354045 ])).addTo(map);
 
-    var geojsonData = {
-  `"type": "FeatureCollection",
+    const geojsonData = {
+  "type": "FeatureCollection",
   "name": "LVM_SABIEDRIBAI_NOZIMIGAS_VIETAS_Shape",
   "crs": {
     "type": "name",
@@ -6312,40 +6312,65 @@
       }
     }
   ]
-}`;
+};
 
-//pedinas salikt geojson un tad ar for loop ieka foreahc boom boom bam bam iegut visus property makrer yay gribu mirt
 
-  // for (i in geojsonData) {
-  //   L.geoJSON(geojsonData[i], {
-  //       pointToLayer: function (feature, latlng) {
-  //           return L.marker(latlng).bindPopup(feature.properties.PLACENAME);
-  //       }
-  //   }).addTo(map);
-  // }
-
-  //   // Step 5: Add markers from GeoJSON data
-    
-  const jsonString = `{
-  "type": "Feature",
-  "properties": {
-    "PLACENAME": "Piemiņas vieta \\"Īles bunkurs\\"",
-    "PLACESUBTY": 8,
-    "REG_CODE": "6",
-    "LVM_DISTRI": "22625",
-    "BLOCKKEY": "606-84"
+// The input JSON data
+const data = {
+  "type": "FeatureCollection",
+  "name": "LVM_SABIEDRIBAI_NOZIMIGAS_VIETAS_Shape",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::3059"
+    }
   },
-  "geometry": {
-    "type": "Point",
-    "coordinates": [433957.672499997, 271032.412799982]
-  }
-}`;
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "PLACENAME": "Atpūtas vieta pie Kaļņa ezera",
+        "PLACESUBTY": 2,
+        "REG_CODE": "1",
+        "LVM_DISTRI": "22128",
+        "BLOCKKEY": "111-633"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [680527.978100169, 332724.626692906]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "PLACENAME": "Piemiņas vieta \"Īles bunkurs\"",
+        "PLACESUBTY": 8,
+        "REG_CODE": "6",
+        "LVM_DISTRI": "22625",
+        "BLOCKKEY": "606-84"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [433957.672499997, 271032.412799982]
+      }
+    }
+  ]
+};
 
-const parsedData = JSON.parse(geojsonData);
+// Iterate over each feature in the 'features' array
+geojsonData.features.forEach(feature => {
+  // Accessing each property in the 'properties' object
+  Object.keys(feature.properties).forEach(key => {
+    // Output the property name and its value
+    console.log(`${key}: ${feature.properties[key]}`);
+  });
+  
+  // Access and output the coordinates from the 'geometry' object
+  console.log(`Coordinates: ${feature.geometry.coordinates}`);
 
-parsedData.features.forEach(feature => {
-   console.log(feature); });
 
+  L.marker(LKS92WGS84.convertXYToLatLon(feature.geometry.coordinates)).addTo(map);
+});
 
 
     </script>
