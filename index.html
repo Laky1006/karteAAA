@@ -6369,7 +6369,9 @@ geojsonData.features.forEach(feature => {
   console.log(`Coordinates: ${feature.geometry.coordinates}`);
 
 
-  L.marker(LKS92WGS84.convertXYToLatLon(feature.geometry.coordinates)).addTo(map);
+  L.marker(LKS92WGS84.convertXYToLatLon(feature.geometry.coordinates)).addTo(map)
+  .bindPopup(feature.properties.PLACENAME)
+    .openPopup();;
 });
 
 
